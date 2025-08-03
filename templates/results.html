@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Case Details</h1>
+        
+        {% if data.error %}
+            <div class="error-box">{{ data.error }}</div>
+        {% else %}
+            <div class="result-section">
+                <h2>Case Information</h2>
+                <p><strong>Parties:</strong> {{ data.parties }}</p>
+                <p><strong>Filing Date:</strong> {{ data.filing_date }}</p>
+                <p><strong>Next Hearing Date:</strong> {{ data.next_hearing_date }}</p>
+            </div>
+
+            <div class="result-section">
+                <h2>Orders & Judgments</h2>
+                {% if data.pdf_links %}
+                    <ul>
+                        {% for item in data.pdf_links %}
+                            <li>
+                                <strong>{{ item.date }}</strong>: 
+                                <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">Download PDF</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No orders/judgments found.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <a href="/" class="back-link">Search Another Case</a>
+    </div>
+</body>
+</html>
